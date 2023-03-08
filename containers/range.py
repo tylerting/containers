@@ -27,6 +27,7 @@ def range(a, b=None, c=None):
     because it can remove some of the overhead of this automation process,
     but the resulting code is much longer and harder to read/write.
     '''
+
     if c is None:
         d = 1
     else:
