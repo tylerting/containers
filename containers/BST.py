@@ -23,6 +23,11 @@ class BST(BinaryTree):
         if xs is not None:
             for x in xs:
                 self.insert(x)
+    
+    def __iter__(self):
+        self.index = 0
+        self.list self.to_list('inorder')
+        return self
 
     def __next__(self):
         if self.index < super().__len__():
