@@ -229,8 +229,9 @@ class BST(BinaryTree):
             if node.right is None:
                 return node.left
             else:
-                node.value = BST._find_smallest(node.right)
-                node.right = BST._remove(node.value, node.right)
+                a = BST._find_smallest(node.right)
+                node.value = a
+                node.right = BST._remove(a, node.right)
                 return node
 
     def remove_list(self, xs):
