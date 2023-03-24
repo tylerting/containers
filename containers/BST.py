@@ -77,10 +77,7 @@ class BST(BinaryTree):
         Use the _find_smallest and _find_largest functions to fix the bug.
         You should use the _ prefixed methods because those are static methods just like this one.
         '''
-        if node is None:
-            return True
         ret = True
-        if node.left:
             if node.value >= BST._find_largest(node.left):
                 ret &= BST._is_bst_satisfied(node.left)
             else:
@@ -163,12 +160,16 @@ class BST(BinaryTree):
         '''
         if node is None:
             return False
-        if node.value < value:
-            return BST._find(value, node.right)
+        elif node.value < value:
+            if node.left:
+                return BST._find(value, node.right)
         if value == node.value:
             return True
-        if node.value > value:
-            return BST._find(value, node.left)
+        elif node.value > value:
+            if node.right:
+                return BST._find(value, node.left)
+            else:
+                return False
 
     def find_smallest(self):
         '''
