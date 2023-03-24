@@ -77,6 +77,8 @@ class BST(BinaryTree):
         Use the _find_smallest and _find_largest functions to fix the bug.
         You should use the _ prefixed methods because those are static methods just like this one.
         '''
+        if node is None:
+            return True
         ret = True
         if node.left:
             if node.value >= BST._find_largest(node.left):
@@ -108,15 +110,15 @@ class BST(BinaryTree):
     @staticmethod
     def _insert(node, value):
         if value <= node.value:
-            if node.left:
-                BST._insert(node.left, value)
-            else:
+            if not node.left:
                 node.left = Node(value)
-        if value >= node.value:
-            if node.right:
-                BST._insert(node.right, value)
             else:
+                BST._insert(value, node.left)
+        elif value >= node.value:
+            if not node.right:
                 node.right = Node(value)
+            else:
+                BST._insert(value, node.right)
 
     def insert_list(self, xs):
         '''
@@ -130,10 +132,7 @@ class BST(BinaryTree):
         You cannot get this method to work correctly until you have gotten insert to work correctly.
         '''
         for i in xs:
-            if self.root:
-                BST._insert(self.root, i)
-            else:
-                self.root = Node(i)
+            self.insert(i)
 
     def __contains__(self, value):
         '''
@@ -161,16 +160,12 @@ class BST(BinaryTree):
         '''
         if node is None:
             return False
-        elif node.value < value:
-            if node.left:
-                return BST._find(value, node.right)
+        if node.value < value:
+            return BST._find(value, node.right)
         if value == node.value:
             return True
-        elif node.value > value:
-            if node.right:
-                return BST._find(value, node.left)
-            else:
-                return False
+        if node.value > value:
+            return BST._find(value, node.left)
 
     def find_smallest(self):
         '''
