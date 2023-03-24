@@ -41,9 +41,8 @@ class BST(BinaryTree):
         return type(self).__name__ + '(' + str(self.to_list('inorder')) + ')'
 
     def __iter__(self):
-        self.index = 0
-        self.list = self.to_list('inorder')
-        return self
+        for value in super().__iter__():
+            yield value
 
     def __next__(self):
         if self.index < super().__len__():
@@ -109,16 +108,20 @@ class BST(BinaryTree):
 
     @staticmethod
     def _insert(value, node):
-        if value <= node.value:
-            if not node.left:
+        ret = False
+        if value < node.value:
+            if node.left:
+                ret &= BST._insert(value, node.left)
+            else:
                 node.left = Node(value)
+                ret = True
+        elif value > node.value:
+            if node.right:
+                ret &= BST._insert(value, node.right)
             else:
-                BST._insert(value, node.left)
-        elif value >= node.value:
-            if not node.right:
                 node.right = Node(value)
-            else:
-                BST._insert(value, node.right)
+                ret = True
+        return ret
 
     def insert_list(self, xs):
         '''
@@ -257,5 +260,5 @@ class BST(BinaryTree):
         HINT:
         See the insert_list function.
         '''
-        for x in xs:
-            self.root = BST._remove(x, self.root)
+        for i in xs:
+            self.root = BST._remove(i, self.root)
