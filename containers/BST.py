@@ -135,7 +135,7 @@ class BST(BinaryTree):
         FIXME:
         Implement this function.
         '''
-        return BST._find(value, self.root):
+        return BST._find(value, self.root)
 
     @staticmethod
     def _find(value, node):
