@@ -105,20 +105,20 @@ class BST(BinaryTree):
         if not self.root:
             self.root = Node(value)
         else:
-            BST._insert(value, self.root)
+            BST._insert(self.root, value)
 
     @staticmethod
-    def _insert(value, node):
+    def _insert(node, value):
         if value <= node.value:
-            if not node.left:
+            if node.left:
+                BST._insert(node.left, value)
+            else:
                 node.left = Node(value)
+        if value >= node.value:
+            if node.right:
+                BST._insert(node.right, value)
             else:
-                BST._insert(value, node.left)
-        elif value >= node.value:
-            if not node.right:
                 node.right = Node(value)
-            else:
-                BST._insert(value, node.right)
 
     def insert_list(self, xs):
         '''
@@ -158,14 +158,18 @@ class BST(BinaryTree):
         FIXME:
         Implement this function.
         '''
-        if node is None:
-            return False
-        if node.value < value:
-            return BST._find(value, node.right)
-        if value == node.value:
+        if node.value == value:
             return True
         if node.value > value:
-            return BST._find(value, node.left)
+            if node.left:
+                return BST._find(value, node.left)
+            else:
+                return False
+        if node.value < value:
+            if node.right:
+                return BST._find(value, node.right)
+            else:
+                return False
 
     def find_smallest(self):
         '''
