@@ -100,16 +100,16 @@ class BST(BinaryTree):
 
     @staticmethod
     def _insert(value, node):
-        if value <= node.value:
+        if value < node.value:
             if not node.left:
                 node.left = Node(value)
             else:
-                BST._insert(node.left, value)
-        elif value >= node.value:
+                BST._insert(value, node.left)
+        elif value > node.value:
             if not node.right:
                 node.right = Node(value)
             else:
-                BST._insert(node.right, value)
+                BST._insert(value, node.right)
 
     def insert_list(self, xs):
         '''
@@ -123,10 +123,7 @@ class BST(BinaryTree):
         You cannot get this method to work correctly until you have gotten insert to work correctly.
         '''
         for i in xs:
-            if self.root:
-                BST._insert(self.root, i)
-            else:
-                self.root = Node(i)
+            self.insert(i)
 
     def __contains__(self, value):
         '''
@@ -141,7 +138,11 @@ class BST(BinaryTree):
         FIXME:
         Implement this function.
         '''
-        return BST._find(value, self.root)
+        if self.root:
+            if BST._find(value, self.root):
+                return True
+        else:
+            return False
 
     @staticmethod
     def _find(value, node):
