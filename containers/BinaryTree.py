@@ -226,4 +226,4 @@ class BinaryTree():
             left = BinaryTree._height(node.left)
         if node.right:
             right = BinaryTree._height(node.right)
-        return 1 + max(left, right)        
+        return 1 + max(left, right) 
