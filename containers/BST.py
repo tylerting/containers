@@ -100,12 +100,12 @@ class BST(BinaryTree):
 
     @staticmethod
     def _insert(value, node):
-        if value < node.value:
+        if value <= node.value:
             if not node.left:
                 node.left = Node(value)
             else:
                 BST._insert(value, node.left)
-        elif value > node.value:
+        elif value >= node.value:
             if not node.right:
                 node.right = Node(value)
             else:
@@ -139,10 +139,9 @@ class BST(BinaryTree):
         Implement this function.
         '''
         if self.root:
-            if BST._find(value, self.root):
-                return True
+            return BST._find(value, self.root)
         else:
-            return False
+            return None
 
     @staticmethod
     def _find(value, node):
@@ -150,12 +149,14 @@ class BST(BinaryTree):
         FIXME:
         Implement this function.
         '''
-        if node.value < value and node.left:
-            return BST._find(value, node.left)
+        if node is None:
+            return False
+        if node.value < value:
+            return BST._find(value, node.right)
         if value == node.value:
             return True
-        if value > node.value and node.right:
-            return BST._find(value, node.right)
+        if node.value > value:
+            return BST._find(value, node.left)
 
     def find_smallest(self):
         '''
@@ -249,14 +250,3 @@ class BST(BinaryTree):
         '''
         for x in xs:
             self.root = BST._remove(x, self.root)
-
-    def __eq__(self, b):
-        list_self = self.to_list('inorder')
-        list_b = b.to_list('inorder')
-        for x in list_self:
-            if x not in list_b:
-                return False
-        for i in list_b:
-            if i not in list_self:
-                return False
-        return True
