@@ -47,9 +47,9 @@ class BST(BinaryTree):
 
     def __next__(self):
         if self.index < super().__len__():
-            c = self.list(self.index)
+            value = self.list[self.index]
             self.index += 1
-            return c
+            return value
         else:
             raise StopIteration()
 
