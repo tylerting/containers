@@ -24,6 +24,19 @@ class BST(BinaryTree):
             for x in xs:
                 self.insert(x)
 
+    def __iter__(self):
+        self.index = 0
+        self.list = self.to_list('inorder')
+        return self
+
+    def __next__(self):
+        if self.index < super().__len__():
+            value = self.list[self.index]
+            self.index += 1
+            return value
+        else:
+            raise StopIteration()
+
     def __repr__(self):
         '''
         Notice that in the BinaryTree class,
@@ -39,19 +52,6 @@ class BST(BinaryTree):
         and that they won't have to reimplement it.
         '''
         return type(self).__name__ + '(' + str(self.to_list('inorder')) + ')'
-
-    def __iter__(self):
-        self.index = 0
-        self.list = self.to_list('inorder')
-        return self
-
-    def __next__(self):
-        if self.index < super().__len__():
-            value = self.list[self.index]
-            self.index += 1
-            return value
-        else:
-            raise StopIteration()
 
     def is_bst_satisfied(self):
         '''
