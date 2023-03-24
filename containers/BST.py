@@ -247,4 +247,4 @@ class BST(BinaryTree):
         See the insert_list function.
         '''
         for x in xs:
-            self.root = BST._remove(i, self.root)
+            self.root = BST._remove(x, self.root)
