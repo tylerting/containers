@@ -78,10 +78,11 @@ class BST(BinaryTree):
         You should use the _ prefixed methods because those are static methods just like this one.
         '''
         ret = True
-        if node.value >= BST._find_largest(node.left):
-            ret &= BST._is_bst_satisfied(node.left)
-        else:
-            ret = False
+        if node.left:
+            if node.value >= BST._find_largest(node.left):
+                ret &= BST._is_bst_satisfied(node.left)
+            else:
+                ret = False
         if node.right:
             if node.value <= BST._find_smallest(node.right):
                 ret &= BST._is_bst_satisfied(node.right)
