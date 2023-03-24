@@ -41,8 +41,9 @@ class BST(BinaryTree):
         return type(self).__name__ + '(' + str(self.to_list('inorder')) + ')'
 
     def __iter__(self):
-        for value in super().__iter__():
-            yield value
+        self.index = 0
+        self.list = self.to_list('inorder')
+        return self
 
     def __next__(self):
         if self.index < super().__len__():
