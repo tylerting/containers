@@ -108,7 +108,7 @@ class BST(BinaryTree):
             BST._insert(value, self.root)
 
     @staticmethod
-    def _insert(node, value):
+    def _insert(value, node):
         if value <= node.value:
             if not node.left:
                 node.left = Node(value)
