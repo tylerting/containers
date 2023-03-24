@@ -46,9 +46,9 @@ class BST(BinaryTree):
 
     def __next__(self):
         if self.index < super().__len__():
-            c = self.list[self.index]
+            value = self.list[self.index]
             self.index += 1
-            return c
+            return value
         else:
             raise StopIteration()
 
@@ -107,21 +107,17 @@ class BST(BinaryTree):
             BST._insert(value, self.root)
 
     @staticmethod
-    def _insert(value, node):
-        ret = False
-        if value < node.value:
+    def _insert(node, value):
+        if value <= node.value:
             if node.left:
-                ret &= BST._insert(value, node.left)
+                BST._insert(node.left, value)
             else:
                 node.left = Node(value)
-                ret = True
-        elif value > node.value:
+        if value >= node.value:
             if node.right:
-                ret &= BST._insert(value, node.right)
+                BST._insert(node.right, value)
             else:
                 node.right = Node(value)
-                ret = True
-        return ret
 
     def insert_list(self, xs):
         '''
@@ -135,7 +131,10 @@ class BST(BinaryTree):
         You cannot get this method to work correctly until you have gotten insert to work correctly.
         '''
         for i in xs:
-            self.insert(i)
+            if self.root:
+                BST._insert(self.root, i)
+            else:
+                self.root = Node(i)
 
     def __contains__(self, value):
         '''
