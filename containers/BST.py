@@ -249,3 +249,14 @@ class BST(BinaryTree):
         '''
         for x in xs:
             self.root = BST._remove(x, self.root)
+
+    def __eq+(self, b)
+        list_self = self.to_list('inorder')
+        list_b = b.to_list('inorder')
+        for x in list_self:
+            if x not in list_b:
+                return False
+        for i in list_b:
+            if i not in list_self:
+                return False
+        return True
