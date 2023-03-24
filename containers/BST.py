@@ -44,6 +44,14 @@ class BST(BinaryTree):
         for value in super().__iter__():
             yield value
 
+    def __next__(self):
+        if self.index < super().__len__():
+            c = self.list(self.index)
+            self.index += 1
+            return c
+        else:
+            raise StopIteration()
+
     def is_bst_satisfied(self):
         '''
         Whenever you implement a data structure,
