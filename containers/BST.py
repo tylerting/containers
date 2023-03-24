@@ -20,6 +20,9 @@ class BST(BinaryTree):
         then each element of xs needs to be inserted into the BST.
         '''
         super().__init__()
+        if xs is not None:
+            for x in xs:
+                self.insert(x)
 
     def __repr__(self):
         '''
@@ -89,17 +92,8 @@ class BST(BinaryTree):
         else:
             BST._insert(value, self.root)
 
-    def insert_list(self, xs):
-        '''
-        Given a list xs, insert each element of xs into self.
-
-        FIXME:
-        Implement this function.
-
-        HINT:
-        Repeatedly call the insert method.
-        You cannot get this method to work correctly until you have gotten insert to work correctly.
-        '''
+    @staticmethod
+    def _insert(value, node):
         if value < node.value:
             if not node.left:
                 node.left = Node(value)
@@ -112,6 +106,20 @@ class BST(BinaryTree):
                 BST._insert(value, node.right)
         else:
             print("Cannot insert value")
+
+    def insert_list(self, xs):
+        '''
+        Given a list xs, insert each element of xs into self.
+
+        FIXME:
+        Implement this function.
+
+        HINT:
+        Repeatedly call the insert method.
+        You cannot get this method to work correctly until you have gotten insert to work correctly.
+        '''
+        for i in xs:
+            self.insert(i)
 
     def __contains__(self, value):
         '''
@@ -208,7 +216,7 @@ class BST(BinaryTree):
             self.root = self._remove(value, self.root)
 
     @staticmethod
-    def remove(node, value):
+    def remove(value, node):
         if node is None:
             return node
         if node < node.value:
