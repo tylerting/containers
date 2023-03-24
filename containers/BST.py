@@ -24,11 +24,6 @@ class BST(BinaryTree):
             for x in xs:
                 self.insert(x)
 
-    def __iter__(self):
-        self.index = 0
-        self.list = self.to_list('inorder')
-        return self
-
     def __next__(self):
         if self.index < super().__len__():
             value = self.list[self.index]
@@ -206,13 +201,13 @@ class BST(BinaryTree):
         else:
             return BST._find_largest(self.root)
 
-        @staticmethod
-        def find_largest(node):
-            assert node is not None
-            if node.right is None:
-                return node.value
-            else:
-                return BST._find_largest(node.right)
+    @staticmethod
+    def find_largest(node):
+        assert node is not None
+        if node.right is None:
+            return node.value
+        else:
+            return BST._find_largest(node.right)
 
     def remove(self, value):
         '''
