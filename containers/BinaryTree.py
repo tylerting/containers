@@ -184,14 +184,14 @@ class BinaryTree():
         if a right child exists, add the result of __len__helper on the right child;
         return the sum of these three steps
         '''
-        if node is None:
-            return 0
-        ret = 1
+        i = 0
+        if not node:
+            return i
         if node.left:
-            ret += len(node.left)
+            i += BinaryTree.__len__helper(node.left)
         if node.right:
-            ret += len(node.right)
-        return ret
+            i += BinaryTree.__len__helper(node.right)
+        return i + 1
 
     def height(self):
         '''
