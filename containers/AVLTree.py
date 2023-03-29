@@ -22,9 +22,6 @@ class AVLTree():
         Implement this function.
         '''
         super().__init__()
-        if xs is not None:
-            for x in xs:
-                self.insert(x)
 
     def balance_factor(self):
         '''
@@ -150,6 +147,13 @@ class AVLTree():
             return AVLTree._rebalance(node)
         else:
             return node
+
+    def insert_list(self, xs):
+        for i in xs:
+            if self.root:
+                self.root = AVLTree._insert(self.root, i)
+            else:
+                self.root = Node(i)
 
     @staticmethod
     def _rebalance(node):
