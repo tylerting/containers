@@ -181,21 +181,25 @@ class Heap(BinaryTree):
 
     @staticmethod
     def _remove_bottom_right(node, binarynum):
-        if len(binarynum) == 1:
-            if binarynum[0] == '1':
-                number = node.right.value
-                node.right = None
-                return number
-            else:
-                number = node.left.value
+        deleted_value = ""
+        if len(binarynum) == 0:
+            return None, None
+        if binarynum[0] == '0':
+            if len(binarynum) == 1:
+                deleted_value = node.left.value
                 node.left = None
-                return number
-        elif binarynum[0] == '1':
-            binarynum.pop(0)
-            return Heap._remove_bottom_right(node.right, remove)
-        else:
-            binarynum.pop(0)
-            return Heap._remove_bottom_right(node.left, remove)
+            else:
+                deleted_value, node.left = Heap._remove_bottom_right(
+                    node.left, binarynum[1:])
+        if binarynum[0] == '1':
+            if len(binarynum) == 1:
+                deleted_value = node.right.value
+                node.right = None
+            else:
+                deleted_value, node.right = Heap._remove_bottom_right(
+                    node.right, binarynum[1:])
+        print(deleted_value, str(node))
+        return deleted_value, node
 
     @staticmethod
     def _trickle_down(node):
