@@ -194,7 +194,7 @@ class Heap(BinaryTree):
             binarynum.pop(0)
             return Heap._remove_bottom_right(node.right, remove)
         else:
-            remove.pop(0)
+            binarynum.pop(0)
             return Heap._remove_bottom_right(node.left, remove)
 
     @staticmethod
