@@ -171,7 +171,7 @@ class Heap(BinaryTree):
             Heap._remove_bottom_right(self.root, binarynum)
             self.num_nodes -= 1
             self.root.value = Heap.replace
-            Heap._trickle(self.root)
+            Heap._trickle_down(self.root)
             return self.root.value
 
     @staticmethod
