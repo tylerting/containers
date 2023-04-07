@@ -98,41 +98,30 @@ class Heap(BinaryTree):
         Create a @staticmethod helper function,
         following the same pattern used in the BST and AVLTree insert functions.
         '''
-        if self.root:
-            length_node = self.__len__()
-            binarynum = "{0:b}".format(length_node + 1)[1:]
-            self.root = Heap._insert(value, self.root, binarynum)
-        else:
+        self.num_nodes += 1
+        binarynum = bin(self.num_nodes)[3:]
+        if self.root is None:
             self.root = Node(value)
+        else:
+            Heap._insert(self.root, value, binarynum)
 
     @staticmethod
-    def _insert(value, node, binarynum):
+    def _insert(node, value, binarynum):
         if binarynum[0] == '0':
-            if not node.left:
+            if len(binarynum) == 1:
                 node.left = Node(value)
             else:
-                node.left = Heap._insert(value, node.left, binarynum[1:])
+                Heap._insert(node.left, value, binarynum[1:])
+            if node.value > node.left.value:
+                node.value, node.left.value = node.left.value, node.value
+
         if binarynum[0] == '1':
-            if not node.right:
+            if len(binarynum) == 1:
                 node.right = Node(value)
             else:
-                node.right = Heap._insert(value, node.right, binarynum[1:])
-        if binarynum[0] == '0':
-            if node.left.value < node.value:
-                temp = node.value
-                node.value = node.left.value
-                node.left.value = temp
-                return node
-            else:
-                return node
-        if binarynum[0] == '1':
-            if node.right.value < node.value:
-                temp = node.value
-                node.value = node.right.value
-                node.right.value = temp
-                return node
-            else:
-                return
+                Heap._insert(node.right, value, binarynum[1:])
+            if node.value > node.right.value:
+                node.value, node.right.value = node.right.value, node.value
 
     def insert_list(self, xs):
         '''
@@ -173,16 +162,16 @@ class Heap(BinaryTree):
         It's possible to do it with only a single helper (or no helper at all),
         but I personally found dividing up the code into two made the most sense.
         '''
-        binary_str = bin(self.num_nodes)[3:]
+        binarynum = bin(self.num_nodes)[3:]
         if self.root is None:
             return None
-        elif not binary_str:
+        elif not binarynum:
             min_value = self.root.value
             self.root = None
             self.num_nodes = 0
             return min_value
         else:
-            Heap._remove_bottom_right(self.root, binary_str)
+            Heap._remove_bottom_right(self.root, binarynum)
             self.num_nodes -= 1
             self.root.value = Heap.replace
             Heap._trickle(self.root)
@@ -190,25 +179,32 @@ class Heap(BinaryTree):
 
     @staticmethod
     def _remove_bottom_right(node, binarynum):
-        deleted_value = ""
-        if len(binarynum) == 0:
-            return None, None
+        if node is None:
+            return node
         if binarynum[0] == '0':
             if len(binarynum) == 1:
-                deleted_value = node.left.value
-                node.left = None
+                if node.right:
+                    Heap.replace = node.right.value
+                    node.right = None
+                elif node.left:
+                    Heap.replace = node.left.value
+                    node.left = None
+                else:
+                    return None
             else:
-                deleted_value, node.left = Heap._remove_bottom_right(
-                    node.left, binarynum[1:])
+                Heap._remove_bottom_right(node.left, binarynum[1:])
         if binarynum[0] == '1':
             if len(binarynum) == 1:
-                deleted_value = node.right.value
-                node.right = None
+                if node.right:
+                    Heap.replace = node.right.value
+                    node.right = None
+                elif node.left:
+                    Heap.replace = node.left.value
+                    node.left = None
+                else:
+                    return None
             else:
-                deleted_value, node.right = Heap._remove_bottom_right(
-                    node.right, binarynum[1:])
-        print(deleted_value, str(node))
-        return deleted_value, node
+                Heap._remove_bottom_right(node.right, binarynum[1:])
 
     @staticmethod
     def _trickle_down(node):
