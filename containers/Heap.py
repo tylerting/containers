@@ -95,12 +95,12 @@ class Heap(BinaryTree):
         Create a @staticmethod helper function,
         following the same pattern used in the BST and AVLTree insert functions.
         '''
-        if self.root:
-            length_node = self.__len__()
-            binarynum = "{0:b}".format(length_node + 1)[1:]
-            self.root = Heap._insert(value, self.root, binarynum)
-        else:
+        self.num_nodes += 1
+        binarynum = bin(self.num_nodes)[3:]
+        if self.root is None:
             self.root = Node(value)
+        else:
+            Heap._insert(self.root, value, binarynum)
 
     @staticmethod
     def _insert(node, value, binarynum):
@@ -111,7 +111,6 @@ class Heap(BinaryTree):
                 Heap._insert(node.left, value, binarynum[1:])
             if node.value > node.left.value:
                 node.value, node.left.value = node.left.value, node.value
-
         if binarynum[0] == '1':
             if len(binarynum) == 1:
                 node.right = Node(value)
