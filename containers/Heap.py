@@ -95,29 +95,41 @@ class Heap(BinaryTree):
         Create a @staticmethod helper function,
         following the same pattern used in the BST and AVLTree insert functions.
         '''
-        self.num_nodes += 1
-        binarynum = bin(self.num_nodes)[3:]
-        if self.root is None:
-            self.root = Node(value)
+        if self.root:
+            length_node = self.__len__()
+            binarynum = "{0:b}".format(length_node + 1)[1:]
+            self.root = Heap._insert(value, self.root, binarynum)
         else:
-            Heap._insert(self.root, value, binarynum)
+            self.root = Node(value)
 
     @staticmethod
-    def _insert(node, value, binarynum):
+    def _insert(value, node, binarynum):
         if binarynum[0] == '0':
-            if len(binarynum) == 1:
+            if not node.left:
                 node.left = Node(value)
             else:
-                Heap._insert(node.left, value, binarynum[1:])
-            if node.value > node.left.value:
-                node.value, node.left.value = node.left.value, node.value
+                node.left = Heap._insert(value, node.left, binarynum[1:])
         if binarynum[0] == '1':
-            if len(binarynum) == 1:
+            if not node.right:
                 node.right = Node(value)
             else:
-                Heap._insert(node.right, value, binarynum[1:])
-            if node.value > node.right.value:
-                node.value, node.right.value = node.right.value, node.value
+                node.right = Heap._insert(value, node.right, binarynum[1:])
+        if binarynum[0] == '0':
+            if node.left.value < node.value:
+                temp = node.value
+                node.value = node.left.value
+                node.left.value = temp
+                return node
+            else:
+                return node
+        if binarynum[0] == '1':
+            if node.right.value < node.value:
+                temp = node.value
+                node.value = node.right.value
+                node.right.value = temp
+                return node
+            else:
+                return
 
     def insert_list(self, xs):
         '''
