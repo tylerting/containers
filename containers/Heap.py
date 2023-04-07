@@ -25,6 +25,9 @@ class Heap(BinaryTree):
         then each element of xs needs to be inserted into the Heap.
         '''
         super().__init__()
+        if xs is not None:
+            for x in xs:
+                self.insert(x)
 
     def __repr__(self):
         '''
@@ -148,7 +151,8 @@ class Heap(BinaryTree):
         FIXME:
         Implement this function.
         '''
-        return self.root.value
+        if self.root:
+            return self.root.value
 
     def remove_min(self):
         '''
@@ -169,15 +173,20 @@ class Heap(BinaryTree):
         It's possible to do it with only a single helper (or no helper at all),
         but I personally found dividing up the code into two made the most sense.
         '''
-        if not self.root:
-            pass
+        binary_str = bin(self.num_nodes)[3:]
+        if self.root is None:
+            return None
+        elif not binary_str:
+            min_value = self.root.value
+            self.root = None
+            self.num_nodes = 0
+            return min_value
         else:
-            length_node = self.__len__()
-            binarynum = "{0:b}".format(length_node)[1:]
-            last_value, self.root = Heap._remove_bottom_right(self.root, binarynum)
-            if self.root:
-                self.root.value = last_value
-            self.root = Heap._trickle(self.root)
+            Heap._remove_bottom_right(self.root, binary_str)
+            self.num_nodes -= 1
+            self.root.value = Heap.replace
+            Heap._trickle(self.root)
+            return self.root.value
 
     @staticmethod
     def _remove_bottom_right(node, binarynum):
